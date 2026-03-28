@@ -272,13 +272,18 @@ async function doSearch(){
     const title = hits[0].title;
 
     // STEP 2 — Wikipedia Summary + Related
-    document.getElementById('loaderText').textContent = 'Loading Wikipedia data...';
-    const [sumR, relR] = await Promise.all([
-      fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`),
-      fetch(`https://en.wikipedia.org/api/rest_v1/page/related/${encodeURIComponent(title)}`)
-    ]);
-    const wiki = await sumR.json();
-    const rel  = await relR.json().catch(() => ({pages:[]}));
+document.getElementById('loaderText').textContent = 'Loading Wikipedia data...';
+const [sumR, relR] = await Promise.all([
+  fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`),
+  fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(title)}&format=json&origin=*&srlimit=20`)
+]);
+const wiki = await sumR.json();
+const relJson = await relR.json().catch(() => ({}));
+const rel = { pages: (relJson.query?.search||[]).map(s => ({
+  title: s.title,
+  description: s.snippet.replace(/<[^>]*>/g,''),
+  thumbnail: null
+}))};
 
    // STEP 3 — Smart Wikipedia Summary
 document.getElementById('loaderText').textContent = 'Building summary...';
