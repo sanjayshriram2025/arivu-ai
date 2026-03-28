@@ -282,6 +282,7 @@ const page = Object.values(sumJson.query?.pages||{})[0]||{};
 const wiki = {
   title: page.title || title,
   extract: page.extract?.replace(/<[^>]*>/g,'') || '',
+  description: page.extract?.replace(/<[^>]*>/g,'').split('.')[0] || '',
   thumbnail: page.thumbnail ? {source: page.thumbnail.source} : null,
   content_urls: {desktop:{page:`https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`}}
 };
