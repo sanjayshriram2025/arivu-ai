@@ -277,7 +277,14 @@ const [sumR, relR] = await Promise.all([
   fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`),
   fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(title)}&format=json&origin=*&srlimit=20`)
 ]);
-const wiki = await sumR.json();
+const sumJson = await sumR.json();
+const page = Object.values(sumJson.query?.pages||{})[0]||{};
+const wiki = {
+  title: page.title || title,
+  extract: page.extract?.replace(/<[^>]*>/g,'') || '',
+  thumbnail: page.thumbnail ? {source: page.thumbnail.source} : null,
+  content_urls: {desktop:{page:`https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`}}
+};
 const relJson = await relR.json().catch(() => ({}));
 const rel = { pages: (relJson.query?.search||[]).map(s => ({
   title: s.title,
