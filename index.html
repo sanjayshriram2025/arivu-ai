@@ -280,32 +280,15 @@ async function doSearch(){
     const wiki = await sumR.json();
     const rel  = await relR.json().catch(() => ({pages:[]}));
 
-   // STEP 3 — Claude AI Summary
-document.getElementById('loaderText').textContent = 'Generating AI summary...';
-let ai = {summary:'', highlights:[], videoQueries:[]};
-try{
-  const ar = await fetch('https://api.anthropic.com/v1/messages',{
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
-      messages:[{
-        role: 'user',
-        content: `You are Arivu AI. Based on Wikipedia content about "${title}", respond ONLY with raw JSON (no markdown) with keys: "summary" (2-3 engaging sentences), "highlights" (array of exactly 6 facts max 12 words each), "videoQueries" (array of 5 YouTube search queries). Wikipedia: ${(wiki.extract||'').substring(0,2500)}`
-      }]
-    })
-  });
-  const aj = await ar.json();
-  ai = JSON.parse((aj.content?.[0]?.text||'{}').replace(/```json|```/g,'').trim());
-}catch{
-  ai = {
-    summary: (wiki.extract||'').substring(0,300)+'...',
-    highlights: (wiki.extract||'').split('. ').slice(0,6).map(s=>s.substring(0,80)),
-    videoQueries: [q+' explained', q+' documentary', q+' overview', q+' history', q+' facts']
-  };
-}
-
+   // STEP 3 — Smart Wikipedia Summary
+document.getElementById('loaderText').textContent = 'Building summary...';
+const extract = wiki.extract || '';
+const sentenceList = extract.match(/[^\.!\?]+[\.!\?]+/g) || [];
+const ai = {
+  summary: sentenceList.slice(0,3).join(' ') || wiki.description || 'No summary available.',
+  highlights: sentenceList.slice(0,6).map(s => s.trim().substring(0,90)).filter(s => s.length > 20),
+  videoQueries: [q+' explained', q+' documentary', q+' overview', q+' history', q+' facts']
+};
     // STEP 4 — YouTube Videos
     document.getElementById('loaderText').textContent = 'Fetching YouTube videos...';
     const videos = await getVideos(ai.videoQueries || [q], q);
