@@ -293,13 +293,13 @@ const rel = { pages: (relJson.query?.search||[]).map(s => ({
   thumbnail: null
 }))};
 
-   // STEP 3 — Smart Wikipedia Summary
+// STEP 3 — Smart Wikipedia Summary
 document.getElementById('loaderText').textContent = 'Building summary...';
-const extract = wiki.extract || '';
-const sentenceList = extract.match(/[^\.!\?]+[\.!\?]+/g) || [];
+const rawExtract = page.extract?.replace(/<[^>]*>/g,'').replace(/\n/g,' ').trim() || '';
+const sentences = rawExtract.split(/(?<=[.!?])\s+/).filter(s => s.length > 20);
 const ai = {
-  summary: sentenceList.slice(0,3).join('. ') + '.' || wiki.description || wiki.extract?.substring(0,300) || 'No summary available.',
-  highlights: sentenceList.slice(0,6).map(s => s.trim().substring(0,90)).filter(s => s.length > 20),
+  summary: sentences.slice(0,3).join(' ') || rawExtract.substring(0,300) || 'No summary available.',
+  highlights: sentences.slice(0,6).map(s => s.substring(0,90)),
   videoQueries: [q+' explained', q+' documentary', q+' overview', q+' history', q+' facts']
 };
     // STEP 4 — YouTube Videos
