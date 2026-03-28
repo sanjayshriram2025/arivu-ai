@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arivu AI — அறிவு | Knowledge</title>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:wght@300;400;500;600&family=Noto+Sans+Tamil:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07060F;--card:#13101F;--card2:#1A1630;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.18);
+  --text:#F0EBF8;--muted:#9B8EB8;
+  --g1:#FF6B35;--g2:#FF1B6B;--g3:#B721FF;
+  --green:#06D6A0;--radius:16px;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* NAVBAR */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(7,6,15,0.88);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;
+}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--g1),var(--g2),var(--g3));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:18px;color:#fff;
+}
+.logo-en{
+  font-family:'Abril Fatface',serif;font-size:18px;
+  background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.logo-ta{font-family:'Noto Sans Tamil',sans-serif;font-size:11px;color:var(--muted);margin-top:1px}
+.nav-right{display:flex;gap:8px}
+.badge{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.badge-live{background:linear-gradient(90deg,var(--g1),var(--g2));color:#fff}
+.badge-soon{border:1px solid var(--border);color:var(--muted);opacity:.5}
+.badge span{font-size:10px;background:rgba(255,255,255,0.2);padding:1px 5px;border-radius:4px}
+
+/* HERO */
+.hero{text-align:center;padding:80px 1.5rem 60px;position:relative;z-index:1}
+.tool-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,107,53,0.15);
+  border:1px solid rgba(255,107,53,0.3);
+  color:var(--g1);padding:5px 14px;border-radius:20px;
+  font-size:12px;font-weight:600;letter-spacing:.05em;
+  text-transform:uppercase;margin-bottom:20px;
+}
+.dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--g1);display:inline-block;
+  animation:pulse 1.5s ease infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero h1{
+  font-family:'Abril Fatface',serif;
+  font-size:clamp(2.5rem,6vw,5rem);
+  line-height:1.1;margin-bottom:16px;
+  background:linear-gradient(135deg,#fff 0%,var(--g1) 40%,var(--g2) 70%,var(--g3) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero p{color:var(--muted);font-size:1.1rem;max-width:520px;margin:0 auto 36px;line-height:1.6}
+
+/* SEARCH BOX */
+.search-wrap{max-width:700px;margin:0 auto}
+.search-box{
+  display:flex;align-items:center;
+  background:var(--card);
+  border:1.5px solid var(--border2);
+  border-radius:50px;
+  padding:6px 6px 6px 24px;
+  transition:border-color .2s,box-shadow .2s;
+}
+.search-box:focus-within{
+  border-color:var(--g2);
+  box-shadow:0 0 0 4px rgba(255,27,107,0.15);
+}
+.search-box input{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--text);font-size:1rem;
+  font-family:'DM Sans',sans-serif;padding:8px 0;
+}
+.search-box input::placeholder{color:var(--muted)}
+.search-btn{
+  background:linear-gradient(135deg,var(--g1),var(--g2),var(--g3));
+  border:none;border-radius:40px;color:#fff;
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;font-weight:600;
+  padding:12px 28px;cursor:pointer;
+  transition:opacity .2s,transform .1s;flex-shrink:0;
+}
+.search-btn:hover{opacity:.9}
+.search-btn:active{transform:scale(.97)}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px}
+.chip{
+  padding:5px 14px;border-radius:20px;
+  background:var(--card);border:1px solid var(--border);
+  color:var(--muted);font-size:12px;cursor:pointer;
+  transition:all .2s;font-family:'DM Sans',sans-serif;
+}
+.chip:hover{border-color:var(--border2);color:var(--text)}
+/* LOADER */
+#loader{display:none;text-align:center;padding:80px 20px;position:relative;z-index:1}
+.ring{width:50px;height:50px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--g2);animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* TOP RESULT CARD */
+#results{display:none;position:relative;z-index:1;padding:0 1.5rem 4rem}
+.inner{max-width:980px;margin:0 auto}
+.top-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:grid;grid-template-columns:280px 1fr;margin-bottom:24px}
+@media(max-width:640px){.top-card{grid-template-columns:1fr}}
+.top-img{position:relative;overflow:hidden;min-height:260px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(183,33,255,0.2),rgba(255,27,107,0.2))}
+.top-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.top-info{padding:28px;display:flex;flex-direction:column;gap:16px}
+.wiki-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(6,214,160,0.1);border:1px solid rgba(6,214,160,0.25);color:var(--green);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;width:fit-content}
+.top-info h2{font-family:'Abril Fatface',serif;font-size:clamp(1.4rem,3vw,2rem);line-height:1.2;background:linear-gradient(90deg,var(--text),var(--g1));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.summary{color:var(--muted);font-size:.95rem;line-height:1.7}
+
+/* SECTIONS */
+.sec{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:24px}
+.sec-title{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.sec-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* HIGHLIGHTS */
+.hl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.hl-item{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;gap:12px;align-items:flex-start}
+.hl-num{font-family:'Abril Fatface',serif;font-size:24px;line-height:1;background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;flex-shrink:0;min-width:28px}
+.hl-text{color:var(--muted);font-size:13px;line-height:1.6}
+
+/* VIDEOS */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px}
+.vcard{border-radius:12px;overflow:hidden;background:var(--card2);border:1px solid var(--border);cursor:pointer;transition:all .2s;text-decoration:none;display:block}
+.vcard:hover{border-color:var(--g2);transform:translateY(-3px);box-shadow:0 8px 24px rgba(255,27,107,0.2)}
+.vthumb{aspect-ratio:16/9;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(255,107,53,0.3),rgba(183,33,255,0.3));display:flex;align-items:center;justify-content:center}
+.vthumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.voverlay{position:absolute;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.vcard:hover .voverlay{opacity:1}
+.pbtn{width:44px;height:44px;border-radius:50%;background:rgba(255,27,107,.95);display:flex;align-items:center;justify-content:center}
+.picon{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:15px solid #fff;margin-left:3px}
+.ytbadge{position:absolute;bottom:6px;right:6px;background:#FF0000;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;z-index:1}
+.vinfo{padding:10px 12px}
+.vtitle{font-size:12px;line-height:1.4;color:var(--text);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:3px}
+.vchan{font-size:11px;color:var(--muted)}
+
+/* RELATED */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.rcard{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;text-decoration:none;display:flex;align-items:center;gap:10px;transition:all .2s}
+.rcard:hover{border-color:var(--g3);background:rgba(183,33,255,.08)}
+.rthumb{width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0}
+.rph{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,rgba(183,33,255,.2),rgba(255,27,107,.2));flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px}
+.rname{font-size:12px;font-weight:500;color:var(--text);line-height:1.3}
+.rdesc{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* BUTTONS + FOOTER */
+.back-btn{background:linear-gradient(135deg,var(--g1),var(--g2));border:none;border-radius:30px;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:12px 28px;cursor:pointer}
+.back-btn:hover{opacity:.85}
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:12px;border-top:1px solid var(--border)}
+footer strong{background:linear-gradient(90deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.f0{animation:fadeUp .4s ease forwards}
+.f1{animation:fadeUp .4s .05s ease forwards;opacity:0}
+.f2{animation:fadeUp .4s .1s ease forwards;opacity:0}
+.f3{animation:fadeUp .4s .15s ease forwards;opacity:0}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon">A</div>
+    <div style="display:flex;flex-direction:column;line-height:1">
+      <span class="logo-en">Arivu AI</span>
+      <span class="logo-ta">அறிவு — Knowledge</span>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="badge badge-live">WikiSnap <span>Live</span></div>
+    <div class="badge badge-soon">Notes AI <span>Soon</span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="tool-tag"><div class="dot"></div>WikiSnap</div>
+  <h1>Search Anything.<br>Know Everything.</h1>
+  <p>Powered by Wikipedia + Arivu AI — instant summaries, highlights, real YouTube videos and references.</p>
+
+  <div class="search-wrap">
+    <div class="search-box">
+      <input type="text" id="searchInput"
+        placeholder="Search — India, Black Hole, Tamil Nadu..."
+        autocomplete="off"/>
+      <button class="search-btn" id="searchBtn">Search →</button>
+    </div>
+    <div class="chips">
+      <span class="chip">🇮🇳 India</span>
+      <span class="chip">🌌 Black Hole</span>
+      <span class="chip">🏛️ Tamil Nadu</span>
+      <span class="chip">🤖 AI</span>
+      <span class="chip">🗼 Eiffel Tower</span>
+      <span class="chip">⚽ Ronaldo</span>
+    </div>
+  </div>
+</section>
+<!-- LOADER -->
+<div id="loader">
+  <div class="ring"></div>
+  <p id="loaderText" style="color:var(--muted);font-size:14px">Searching Wikipedia...</p>
+</div>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="inner" id="resultsInner"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>Built with ❤️ for <strong>Arivu AI</strong> — அறிவு | Wikipedia · YouTube · Claude AI</footer>
+<script>
+const YT_KEY = 'AIzaSyCYw3ZKtbOHTkk2SJMY-oJxtr8AfgFEMjU';
+
+// Make chips clickable
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.getElementById('searchInput').value = chip.textContent.slice(2);
+    doSearch();
+  });
+});
+
+// Search on Enter key
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if(e.key === 'Enter') doSearch();
+});
+
+// Search button click
+document.getElementById('searchBtn').addEventListener('click', doSearch);
+
+function resetHome(){
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('loader').style.display = 'none';
+  document.getElementById('hero').style.display = 'block';
+  document.getElementById('searchInput').value = '';
+}
+
+async function doSearch(){
+  const q = document.getElementById('searchInput').value.trim();
+  if(!q) return;
+
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('loader').style.display = 'block';
+  document.getElementById('searchBtn').disabled = true;
+
+  try{
+    // STEP 1 — Wikipedia Search
+    document.getElementById('loaderText').textContent = 'Searching Wikipedia...';
+    const sr = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q)}&format=json&origin=*&srlimit=3`);
+    const sd = await sr.json();
+    const hits = sd.query?.search;
+    if(!hits || !hits.length) throw new Error('No Wikipedia results found.');
+    const title = hits[0].title;
+
+    // STEP 2 — Wikipedia Summary + Related
+    document.getElementById('loaderText').textContent = 'Loading Wikipedia data...';
+    const [sumR, relR] = await Promise.all([
+      fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`),
+      fetch(`https://en.wikipedia.org/api/rest_v1/page/related/${encodeURIComponent(title)}`)
+    ]);
+    const wiki = await sumR.json();
+    const rel  = await relR.json().catch(() => ({pages:[]}));
+
+   // STEP 3 — Build summary from Wikipedia
+document.getElementById('loaderText').textContent = 'Building summary...';
+const sentences = (wiki.extract||'').split('. ').slice(0,3).join('. ') + '.';
+const ai = {
+  summary: sentences || wiki.description || 'No summary available.',
+  highlights: (wiki.extract||'').split('. ').slice(0,6).map(s => s.substring(0,80)),
+  videoQueries: [q+' explained', q+' documentary', q+' overview', q+' history', q+' facts']
+};
+
+    // STEP 4 — YouTube Videos
+    document.getElementById('loaderText').textContent = 'Fetching YouTube videos...';
+    const videos = await getVideos(ai.videoQueries || [q], q);
+
+    // STEP 5 — Render everything
+    render(wiki, rel, ai, videos, title);
+
+  }catch(e){
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('resultsInner').innerHTML = `
+      <div style="background:rgba(255,27,107,.08);border:1px solid rgba(255,27,107,.25);border-radius:12px;padding:24px;color:var(--g2);text-align:center">
+        <div style="font-size:2rem;margin-bottom:12px">⚠️</div>
+        <b>Error:</b> ${e.message}<br><br>
+        <button class="back-btn" onclick="resetHome()">← Try Again</button>
+      </div>`;
+  }finally{
+    document.getElementById('searchBtn').disabled = false;
+  }
+}
+
+async function getVideos(queries, fallback){
+  try{
+    const r = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(queries[0]||fallback)}&maxResults=6&type=video&key=${YT_KEY}`);
+    const d = await r.json();
+    if(d.error) throw new Error(d.error.message);
+    return (d.items||[]).map(v => ({
+      title:   v.snippet.title,
+      channel: v.snippet.channelTitle,
+      thumb:   v.snippet.thumbnails?.medium?.url || '',
+      url:     `https://www.youtube.com/watch?v=${v.id.videoId}`
+    }));
+  }catch{
+    return (queries||[]).slice(0,5).map(q => ({
+      title: q, channel: 'YouTube Search', thumb: '',
+      url: `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
+    }));
+  }
+}
+
+function render(wiki, rel, ai, videos, pageTitle){
+  document.getElementById('loader').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  const hlHtml = (ai.highlights||[]).map((h,i) => `
+    <div class="hl-item">
+      <div class="hl-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="hl-text">${h}</div>
+    </div>`).join('');
+
+  const vidHtml = videos.slice(0,6).map(v => `
+    <a href="${v.url}" target="_blank" class="vcard">
+      <div class="vthumb">
+        ${v.thumb ? `<img src="${v.thumb}" alt="${v.title}" loading="lazy"/>` : ''}
+        <div class="voverlay"><div class="pbtn"><div class="picon"></div></div></div>
+        <div class="ytbadge">▶ YT</div>
+      </div>
+      <div class="vinfo">
+        <div class="vtitle">${v.title}</div>
+        <div class="vchan">${v.channel}</div>
+      </div>
+    </a>`).join('');
+
+  const relPages = (rel.pages||[]).slice(0,20);
+  const relHtml = relPages.map(p => `
+    <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(p.title)}" target="_blank" class="rcard">
+      ${p.thumbnail?.source
+        ? `<img src="${p.thumbnail.source}" alt="${p.title}" class="rthumb" loading="lazy"/>`
+        : `<div class="rph">📄</div>`}
+      <div>
+        <div class="rname">${p.title}</div>
+        <div class="rdesc">${(p.description||'Wikipedia article').substring(0,55)}</div>
+      </div>
+    </a>`).join('');
+
+  document.getElementById('resultsInner').innerHTML = `
+    <div class="top-card f0">
+      <div class="top-img">
+        ${wiki.thumbnail?.source
+          ? `<img src="${wiki.thumbnail.source}" alt="${pageTitle}" loading="lazy"/>`
+          : `<span style="font-size:4rem">🔍</span>`}
+      </div>
+      <div class="top-info">
+        <div class="wiki-badge">✦ Wikipedia + Arivu AI</div>
+        <h2>${wiki.title || pageTitle}</h2>
+        <p class="summary">${ai.summary || wiki.description || ''}</p>
+        <a href="${wiki.content_urls?.desktop?.page || '#'}" target="_blank"
+           style="color:var(--g1);font-size:13px;font-weight:600;text-decoration:none">
+          Read full article on Wikipedia →
+        </a>
+      </div>
+    </div>
+
+    <div class="sec f1">
+      <div class="sec-title">
+        <div class="sec-dot" style="background:linear-gradient(135deg,var(--g1),var(--g2))"></div>
+        Key Highlights
+      </div>
+      <div class="hl-grid">${hlHtml}</div>
+    </div>
+
+    <div class="sec f2">
+      <div class="sec-title">
+        <div class="sec-dot" style="background:linear-gradient(135deg,#FF0000,var(--g1))"></div>
+        YouTube Videos
+      </div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:16px">
+        Click any video to watch on YouTube
+      </p>
+      <div class="vgrid">${vidHtml}</div>
+    </div>
+
+    <div class="sec f3">
+      <div class="sec-title">
+        <div class="sec-dot" style="background:linear-gradient(135deg,var(--g3),var(--green))"></div>
+        Related Articles
+      </div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:16px">
+        ${relPages.length} related Wikipedia articles
+      </p>
+      <div class="rgrid">${relHtml}</div>
+    </div>
+
+    <div style="text-align:center;margin-top:32px">
+      <button class="back-btn" onclick="resetHome()">← New Search</button>
+    </div>`;
+}
+</script>
+</body>
+</html>
