@@ -298,7 +298,7 @@ document.getElementById('loaderText').textContent = 'Building summary...';
 const extract = wiki.extract || '';
 const sentenceList = extract.match(/[^\.!\?]+[\.!\?]+/g) || [];
 const ai = {
-  summary: sentenceList.slice(0,3).join(' ') || wiki.description || 'No summary available.',
+  summary: sentenceList.slice(0,3).join('. ') + '.' || wiki.description || wiki.extract?.substring(0,300) || 'No summary available.',
   highlights: sentenceList.slice(0,6).map(s => s.trim().substring(0,90)).filter(s => s.length > 20),
   videoQueries: [q+' explained', q+' documentary', q+' overview', q+' history', q+' facts']
 };
